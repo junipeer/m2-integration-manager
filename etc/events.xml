@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+
+    <event name="customer_register_success">
+        <observer name="customer_created_junipeer_integration_manager_account" instance="Junipeer\IntegrationManager\Model\Observer\CustomerCreated" />
+    </event>
+
+    <event name="adminhtml_customer_save_after">
+        <observer name="customer_created_admin_junipeer_integration_manager" instance="Junipeer\IntegrationManager\Model\Observer\CustomerCreatedInAdmin" />
+    </event>
+
+    <event name="customer_account_edited">
+        <observer name="customer_edited_junipeer_integration_manager_account" instance="Junipeer\IntegrationManager\Model\Observer\CustomerEditedFrontend" />
+    </event>
+
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="junipeer_integration_manager_controller_success_action" instance="Junipeer\IntegrationManager\Model\Observer\OrderCreated"  />
+    </event>
+</config>

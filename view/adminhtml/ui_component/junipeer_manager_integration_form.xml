@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">junipeer_manager_integration_form.junipeer_manager_integration_form_integration_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Data Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="back" class="Junipeer\IntegrationManager\Block\Adminhtml\Integration\Edit\Buttons\Back" />
+            <button name="delete" class="Junipeer\IntegrationManager\Block\Adminhtml\Integration\Edit\Buttons\Delete" />
+            <button name="save" class="Junipeer\IntegrationManager\Block\Adminhtml\Integration\Edit\Buttons\Save" />
+            <button name="add_action" class="Junipeer\IntegrationManager\Block\Adminhtml\Integration\Edit\Buttons\AddNewAction" />
+
+        </buttons>
+        <namespace>junipeer_manager_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>junipeer_manager_integration_form.junipeer_manager_integration_form_integration_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="junipeer_manager_integration_form_integration_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="junipeer_manager/integration/save"/>
+        </settings>
+        <dataProvider class="Junipeer\IntegrationManager\Ui\Component\Form\IntegrationProvider" name="junipeer_manager_integration_form_integration_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="data_details">
+        <settings>
+            <label/>
+        </settings>
+        <field name="id" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">data</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>false</visible>
+                <dataScope>id</dataScope>
+            </settings>
+        </field>
+        <field name="is_active" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">data</item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Enable</label>
+                <dataScope>is_active</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+
+        <field name="user_integation_id" formElement="hidden">
+            <settings>
+                <dataType>text</dataType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <label translate="true">User Integration ID</label>
+                <dataScope>user_integation_id</dataScope>
+                <visible>false</visible>
+            </settings>
+        </field>
+
+        <field name="name" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <label translate="true">Integration</label>
+                <dataScope>name</dataScope>
+                <visible>false</visible>
+            </settings>
+        </field>
+
+    </fieldset>
+
+    <fieldset name="list_actions">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true">Actions</item>
+            </item>
+        </argument>
+        <insertListing name="actions_listing">
+            <argument name="data" xsi:type="array">
+
+
+                <item name="config" xsi:type="array">
+                    <item name="autoRender" xsi:type="boolean">true</item>
+                    <item name="ns" xsi:type="string">actions_listing</item>
+                    <item name="externalProvider" xsi:type="string">actions_listing.actions_listing_data_source</item>
+                    <item name="imports" xsi:type="array">
+                        <item name="id" xsi:type="string">${ $.provider }:data.id</item>
+                    </item>
+                    <item name="exports" xsi:type="array">
+                        <item name="id" xsi:type="string">${ $.externalProvider }:params.id</item>
+                    </item>
+                </item>
+
+
+
+            </argument>
+        </insertListing>
+    </fieldset>
+
+</form>

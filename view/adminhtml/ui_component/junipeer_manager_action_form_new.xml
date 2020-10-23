@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">junipeer_manager_action_form_new.junipeer_manager_action_form_new_integration_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Action Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="back" class="Junipeer\IntegrationManager\Block\Adminhtml\Action\Edit\Buttons\Back" />
+            <button name="save_and_continue" class="Junipeer\IntegrationManager\Block\Adminhtml\Action\Edit\Buttons\SaveAndContinue" />
+        </buttons>
+        <namespace>junipeer_manager_action_form_new</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>junipeer_manager_action_form_new.junipeer_manager_action_form_new_integration_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="junipeer_manager_action_form_new_integration_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="junipeer_manager/action/save"/>
+        </settings>
+        <dataProvider class="Junipeer\IntegrationManager\Ui\Component\Form\ActionProvider" name="junipeer_manager_action_form_new_integration_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="data_details">
+        <settings>
+            <label/>
+        </settings>
+        <field name="id" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">data</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>false</visible>
+                <dataScope>id</dataScope>
+            </settings>
+        </field>
+        <field name="entity_id" formElement="hidden">
+            <settings>
+                <dataType>text</dataType>
+            </settings>
+        </field>
+        <field name="integration_id" formElement="hidden">
+            <argument name="data" xsi:type="array">
+
+                <item name="config" xsi:type="array">
+                    <item name="class" xsi:type="string">Junipeer\IntegrationManager\Ui\Component\Form\Element\ParentInput</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Parent ID</item>
+                    <item name="formElement" xsi:type="string">hidden</item>
+                    <item name="source" xsi:type="string">data</item>
+                    <item name="dataScope" xsi:type="string">integration_id</item>
+
+                </item>
+            </argument>
+
+        </field>
+        <field name="action" component="Magento_Ui/js/form/element/select" formElement="select">
+            <settings>
+                <dataType>text</dataType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <label translate="true">Junipeer Action</label>
+                <notice translate="true">If no actions shows up, make sure your API Keys are correct in the configuration section.</notice>
+                <dataScope>action</dataScope>
+            </settings>
+
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Junipeer\IntegrationManager\Model\Source\Action\ActionNames"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="entity_type" component="Magento_Ui/js/form/element/select" formElement="select">
+            <settings>
+                <dataType>text</dataType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <label translate="true">Magento Entity</label>
+                <dataScope>entity_type</dataScope>
+            </settings>
+
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Junipeer\IntegrationManager\Model\Source\Action\ActionEntity"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="is_many" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">data</item>
+                    <item name="default" xsi:type="number">0</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Is many</label>
+                <notice translate="true">Does this action involve one entity, or may it involve many? If there are no no fields, then that's an indication that it is many.</notice>
+                <dataScope>is_many</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+    </fieldset>
+
+</form>

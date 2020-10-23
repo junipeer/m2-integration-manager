@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+<menu>
+    <add id="Junipeer::integrationmanager" title="Integration Manager" module="Junipeer_IntegrationManager" sortOrder="20" parent="Junipeer::base" resource="Junipeer_Connector::base" />
+    <add id="Junipeer::integrationmanager_integration" title="Integrations" module="Junipeer_IntegrationManager" sortOrder="20" parent="Junipeer::integrationmanager" resource="Junipeer_IntegrationManager::integration"
+         action="junipeer_manager/integration/index"
+    />
+    <add id="Junipeer::integrationmanager_events" title="Events / Webhooks" module="Junipeer_IntegrationManager" sortOrder="20" parent="Junipeer::integrationmanager" resource="Junipeer_IntegrationManager::integration"
+         action="junipeer_manager/events/index"
+    />
+</menu>
+</config>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">junipeer_manager_action_form.junipeer_manager_action_form_integration_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Action Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="back" class="Junipeer\IntegrationManager\Block\Adminhtml\Action\Edit\Buttons\Back" />
+            <button name="delete" class="Junipeer\IntegrationManager\Block\Adminhtml\Action\Edit\Buttons\Delete" />
+            <button name="save" class="Junipeer\IntegrationManager\Block\Adminhtml\Action\Edit\Buttons\Save" />
+        </buttons>
+        <namespace>junipeer_manager_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>junipeer_manager_action_form.junipeer_manager_action_form_integration_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="junipeer_manager_action_form_integration_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="junipeer_manager/action/save"/>
+        </settings>
+        <dataProvider class="Junipeer\IntegrationManager\Ui\Component\Form\ActionProvider" name="junipeer_manager_action_form_integration_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="data_details">
+        <settings>
+            <label/>
+        </settings>
+        <field name="id" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">data</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>false</visible>
+                <dataScope>id</dataScope>
+            </settings>
+        </field>
+        <field name="action" component="Magento_Ui/js/form/element/select" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">data</item>
+                    <item name="disabled" xsi:type="string">true</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <label translate="true">Junipeer Action</label>
+                <notice translate="true">If no actions shows up, make sure your API Keys are correct in the configuration section.</notice>
+                <dataScope>action</dataScope>
+            </settings>
+
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Junipeer\IntegrationManager\Model\Source\Action\ActionNames"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="entity_type" component="Magento_Ui/js/form/element/select" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">data</item>
+                    <item name="disabled" xsi:type="string">true</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <label translate="true">Magento Entity</label>
+                <dataScope>entity_type</dataScope>
+            </settings>
+
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Junipeer\IntegrationManager\Model\Source\Action\ActionEntity"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="is_many" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">data</item>
+                    <item name="disabled" xsi:type="string">true</item>
+                </item>
+            </argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">data</item>
+                    <item name="default" xsi:type="number">0</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Is many</label>
+                <dataScope>is_many</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+    </fieldset>
+
+    <dynamicRows name="dynamic_rows" component="Junipeer_IntegrationManager/js/rows">
+        <settings>
+            <additionalClasses>
+                <class name="admin__field-wide">true</class>
+            </additionalClasses>
+            <componentType>dynamicRows</componentType>
+        </settings>
+        <container name="record" component="Magento_Ui/js/dynamic-rows/record">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="isTemplate" xsi:type="boolean">true</item>
+                    <item name="is_collection" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">container</item>
+                </item>
+            </argument>
+            <field name="junipeer_field" formElement="select"  sortOrder="10">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="fit" xsi:type="boolean">false</item>
+                        <item name="dataScope" xsi:type="string">junipeer_field</item>
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>text</dataType>
+                    <label>Junipeer Field</label>
+                </settings>
+
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Junipeer\IntegrationManager\Model\Source\Action\JunipeerFields"/>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+            <field name="map_type" formElement="select"  sortOrder="20">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="fit" xsi:type="boolean">false</item>
+                        <item name="dataScope" xsi:type="string">map_type</item>
+
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>text</dataType>
+                    <label>Populate Junipeer field using</label>
+                </settings>
+
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Junipeer\IntegrationManager\Model\Source\Action\FieldMapTypes"/>
+                        </settings>
+                    </select>
+                </formElements>
+
+            </field>
+            <field name="map_value" formElement="select"  sortOrder="30">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="fit" xsi:type="boolean">false</item>
+                        <item name="dataScope" xsi:type="string">map_value</item>
+
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>text</dataType>
+                    <label>Magento Field</label>
+                </settings>
+
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Junipeer\IntegrationManager\Model\Source\Action\MagentoFields"/>
+                        </settings>
+                    </select>
+                </formElements>
+
+            </field>
+
+            <field name="bool_value" formElement="select"  sortOrder="35">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="fit" xsi:type="boolean">false</item>
+                        <item name="dataScope" xsi:type="string">bool_value</item>
+
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>text</dataType>
+                    <label>Yes/No</label>
+                </settings>
+
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Junipeer\IntegrationManager\Model\Source\YesNo"/>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+
+            <field name="custom_value" formElement="input"  sortOrder="40">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="fit" xsi:type="boolean">false</item>
+                        <item name="dataScope" xsi:type="string">custom_value</item>
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>text</dataType>
+                    <label>Custom value</label>
+                </settings>
+            </field>
+
+            <field name="actionDelete" formElement="actionDelete" sortOrder="50">
+                <settings>
+                    <label translate="true">Delete</label>
+                </settings>
+            </field>
+        </container>
+    </dynamicRows>
+</form>

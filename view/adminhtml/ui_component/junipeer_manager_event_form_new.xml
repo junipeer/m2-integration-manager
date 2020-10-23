@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">junipeer_manager_event_form_new.junipeer_manager_event_form_new_event_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Data Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="back" class="Junipeer\IntegrationManager\Block\Adminhtml\Event\Edit\Buttons\Back" />
+            <button name="save" class="Junipeer\IntegrationManager\Block\Adminhtml\Event\Edit\Buttons\Save" />
+        </buttons>
+        <namespace>junipeer_manager_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>junipeer_manager_event_form_new.junipeer_manager_event_form_new_event_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="junipeer_manager_event_form_new_event_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="junipeer_manager/events/save"/>
+        </settings>
+        <dataProvider class="Junipeer\IntegrationManager\Ui\Component\Form\IntegrationProvider" name="junipeer_manager_event_form_new_event_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="data_details">
+        <settings>
+            <label/>
+        </settings>
+        <field name="id" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">data</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>false</visible>
+                <dataScope>id</dataScope>
+            </settings>
+        </field>
+
+        <field name="event" component="Magento_Ui/js/form/element/select" formElement="select">
+            <settings>
+                <dataType>text</dataType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <label translate="true">Event</label>
+                <dataScope>event</dataScope>
+            </settings>
+
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Junipeer\IntegrationManager\Model\Source\Event\Events"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
+        <field name="action_id" component="Magento_Ui/js/form/element/select" formElement="select">
+            <settings>
+                <dataType>text</dataType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <label translate="true">Action</label>
+                <dataScope>action_id</dataScope>
+                <notice translate="true">This action will automatically run when the event above occurs. You may create multiple actions that run on the same event. Notice: Don't add the same action and event more than once!</notice>
+            </settings>
+
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Junipeer\IntegrationManager\Model\Source\Event\Actions"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
+    </fieldset>
+
+</form>

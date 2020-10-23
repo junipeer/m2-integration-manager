@@ -1,0 +1,24 @@
+{
+  "name": "junipeer/m2-integration-manager",
+  "description": "A Magento 2 module handling junipeer integration flows.",
+  "version": "1.0.0",
+  "license": "GNU GPLv3",
+  "type": "magento2-module",
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/junipeer/m2-integration-manager"
+    }
+  ],
+  "require": {
+    "junipeer/m2-connector": "*"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Junipeer\\IntegrationManager\\": ""
+    }
+  }
+}

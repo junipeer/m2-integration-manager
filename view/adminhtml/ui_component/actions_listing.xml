@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">actions_listing.actions_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>columns</spinner>
+        <deps>
+            <dep>actions_listing.actions_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="actions_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <dataProvider class="Junipeer\IntegrationManager\Ui\Component\Listing\ActionsProvider" name="actions_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <columns name="columns">
+        <column name="id" sortOrder="20">
+            <settings>
+                <label translate="true">ID</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+        <column name="integration" sortOrder="25">
+            <settings>
+                <label translate="true">Integration</label>
+            </settings>
+        </column>
+        <column name="name" sortOrder="30">
+            <settings>
+                <label translate="true">Junipeer Action</label>
+            </settings>
+        </column>
+        <column name="entity_type" sortOrder="40">
+            <settings>
+                <label translate="true">Entity Type</label>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Junipeer\IntegrationManager\Ui\Component\Listing\Column\ActionActions">
+            <settings>
+                <indexField>id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>
