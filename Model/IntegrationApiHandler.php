@@ -1,14 +1,13 @@
 <?php
 namespace Junipeer\IntegrationManager\Model;
 
-
-use Junipeer\Connector\Model\Client\Request\DTO\CreateTask;
 use Junipeer\IntegrationManager\Api\ActionRepositoryInterface;
 use Junipeer\IntegrationManager\Api\Data\ActionInterface;
 use Junipeer\IntegrationManager\Api\Data\EventInterface;
 use Junipeer\IntegrationManager\Api\Data\IntegrationInterface;
 use Junipeer\IntegrationManager\Api\EventRepositoryInterface;
 use Junipeer\IntegrationManager\Api\IntegrationRepositoryInterface;
+use Junipeer\Request\CreateTask;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\FilterGroupFactory;
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
@@ -94,45 +93,44 @@ class IntegrationApiHandler
      * @return bool
      */
     public function handleOrderEvent($event, $orderId) {
-        $data = ['order_id' => $orderId];
+        $data = ['order_id' => (int) $orderId];
         $actionEventType = "Order";
 
         try {
             $this->handleEvent($event, $data, $actionEventType);
         } catch (\Exception $e) {
-            // ignore errors?
-
             return false;
         }
 
         return true;
     }
 
+
     /**
-     * @param $event string
-     * @param $customerId int
-     * @param $email string
+     * @param string $event
+     * @param $customerId
+     * @param $email
      * @return bool
      */
     public function handleCustomerEvent($event, $customerId, $email) {
-        $data = ['customer_id' => $customerId, 'email' => $email];
+        $data = ['customer_id' => (int) $customerId, 'email' => $email];
         $actionEventType = "Customer";
 
         try {
             $this->handleEvent($event, $data, $actionEventType);
         } catch (\Exception $e) {
-            // ignore errors?
             return false;
         }
 
         return true;
     }
 
+
     /**
      * @param $event
      * @param $magentoData
      * @param $actionEventType
-     * @return mixed
+     * @return bool|\Junipeer\Response\TaskAction[]
      */
     protected function handleEvent($event, $magentoData, $actionEventType)
     {

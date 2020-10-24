@@ -1,6 +1,6 @@
 {
-  "name": "junipeer/m2-integration-manager",
-  "description": "A Magento 2 module handling junipeer integration flows.",
+  "name": "junipeer/magento2-integration-manager",
+  "description": "A Magento 2 module handling Junipeer integration flows.",
   "version": "1.0.0",
   "license": "GNU GPLv3",
   "type": "magento2-module",
@@ -11,7 +11,8 @@
     }
   ],
   "require": {
-    "junipeer/m2-connector": "*"
+    "junipeer/apiclient": "^1.0",
+    "junipeer/base-magento2": "^1.0"
   },
   "autoload": {
     "files": [

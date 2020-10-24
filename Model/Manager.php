@@ -1,9 +1,13 @@
 <?php
 namespace Junipeer\IntegrationManager\Model;
 
-
-use Junipeer\Connector\Model\Client\Request\DTO\RunTasksRequest;
-use Junipeer\Connector\Model\Client\Api;
+use GuzzleHttp\Exception\GuzzleException;
+use Junipeer\AuthInterface;
+use Junipeer\BasicAuth;
+use Junipeer\IntegrationManager\Helper\Data;
+use Junipeer\Request\RunTasksRequest;
+use Junipeer\Api;
+use Junipeer\TokenAuth;
 
 class Manager
 {
@@ -12,17 +16,49 @@ class Manager
      */
     protected $api;
 
-    public function __construct(Api $api)
-    {
+    /**
+     * @var $helper Data
+     */
+    protected $helper;
+
+    /**
+     * Manager constructor.
+     * @param Api $api
+     * @param Data $helper
+     */
+    public function __construct(
+        Api $api,
+        Data $helper
+    ) {
         $this->api = $api;
+        $this->helper = $helper;
+
+        // our default flow
+        $auth = new BasicAuth();
+        $auth->setBasicAuth($helper->getApiUsername(), $helper->getApiPassword());
+
+        $this->setAuth($auth);
     }
 
+    public function setAuth(AuthInterface $auth) {
+        $this->api->setAuthentication($auth);
+        return $this;
+    }
+
+    /**
+     * @param $userIntegrationId
+     * @param $action
+     * @return string
+     * @throws \Exception
+     */
     public function getIntegrationActionName($userIntegrationId, $action)
     {
         try {
             $integration = $this->api->loadIntegrationById($userIntegrationId);
         } catch (\Exception $e) {
             throw $e;
+        } catch (GuzzleException $e) {
+            throw new \Exception($e->getMessage());
         }
 
         foreach ($integration->getActions() as $act) {
@@ -34,12 +70,20 @@ class Manager
        throw new \Exception("This action wasn't not found, maybe you must restore your integrations");
     }
 
+    /**
+     * @param $userIntegrationId
+     * @param $action
+     * @return array
+     * @throws \Exception
+     */
     public function getIntegrationFields($userIntegrationId, $action)
     {
         try {
             $integration = $this->api->loadIntegrationById($userIntegrationId);
         } catch (\Exception $e) {
             throw $e;
+        } catch (GuzzleException $e) {
+            throw new \Exception($e->getMessage());
         }
 
         foreach ($integration->getActions() as $act) {
@@ -55,12 +99,19 @@ class Manager
         return [];
     }
 
+    /**
+     * @param $userIntegrationId
+     * @return string
+     * @throws \Exception
+     */
     public function getIntegrationName($userIntegrationId)
     {
         try {
             $integrations = $this->api->loadIntegrationNames();
         } catch (\Exception $e) {
             throw $e;
+        } catch (GuzzleException $e) {
+            throw new \Exception($e->getMessage());
         }
 
         foreach ($integrations as $integration) {
@@ -72,12 +123,18 @@ class Manager
         throw new \Exception("This integration wasn't not found.");
     }
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
     public function loadIntegrations()
     {
         try {
             $integrations = $this->api->loadIntegrationNames();
         } catch (\Exception $e) {
             throw $e;
+        } catch (GuzzleException $e) {
+            throw new \Exception($e->getMessage());
         }
 
         $ret = [];
@@ -88,12 +145,19 @@ class Manager
         return $ret;
     }
 
+    /**
+     * @param $userIntegrationId
+     * @return array
+     * @throws \Exception
+     */
     public function loadIntegrationActions($userIntegrationId)
     {
         try {
             $integration = $this->api->loadIntegrationById($userIntegrationId);
         } catch (\Exception $e) {
             throw $e;
+        } catch (GuzzleException $e) {
+            throw new \Exception($e->getMessage());
         }
 
         $ret = [];
@@ -106,14 +170,20 @@ class Manager
 
     /**
      * @param array $tasks
-     * @return bool
+     * @return \Junipeer\Response\TaskAction[]
      * @throws \Exception
      */
     public function runMultipleTasks(array $tasks)
     {
         $req = new RunTasksRequest();
         $req->setTasks($tasks);
-        return $this->api->runTasks($req);
+        try {
+            return $this->api->runTasks($req);
+        } catch (\Exception $e) {
+            throw $e;
+        } catch (GuzzleException $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 
 }
