@@ -1,7 +1,7 @@
 {
   "name": "junipeer/magento2-integration-manager",
   "description": "A Magento 2 module handling Junipeer integration flows.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "GNU GPLv3",
   "type": "magento2-module",
   "repositories": [
