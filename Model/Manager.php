@@ -40,6 +40,14 @@ class Manager
         $this->setAuth($auth);
     }
 
+    /**
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->helper->isEnabled();
+    }
+
     public function setAuth(AuthInterface $auth) {
         $this->api->setAuthentication($auth);
         return $this;

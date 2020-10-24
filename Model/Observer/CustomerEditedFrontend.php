@@ -32,13 +32,17 @@ class CustomerEditedFrontend extends AbstractObserver implements ObserverInterfa
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        $handler = $this->integrationApiHandlerFactory->create();
+        if (!$handler->isEnabled()) {
+            return;
+        }
+
         /** @var string $customerEmail */
         $customerEmail = $observer->getEmail();
         try {
             $store = $this->storeManager->getStore();
             $customer = $this->customerRepository->get($customerEmail, $store->getWebsiteId());
 
-            $handler = $this->integrationApiHandlerFactory->create();
             $handler->handleCustomerEvent($this->entityType, $customer->getId(), $customer->getEmail());
 
         } catch(\Exception $e) {

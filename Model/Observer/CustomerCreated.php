@@ -11,7 +11,6 @@ class CustomerCreated extends AbstractObserver implements ObserverInterface
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-
         $customer = $observer->getCustomer();
         if ($customer && $customer->getId()) {
             $handler = $this->integrationApiHandlerFactory->create();

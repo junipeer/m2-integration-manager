@@ -86,13 +86,25 @@ class IntegrationApiHandler
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
+    /**
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->manager->isEnabled();
+    }
 
     /**
      * @param $event string
      * @param $orderId int
      * @return bool
      */
-    public function handleOrderEvent($event, $orderId) {
+    public function handleOrderEvent($event, $orderId)
+    {
+        if (!$this->isEnabled()) {
+            return false;
+        }
+
         $data = ['order_id' => (int) $orderId];
         $actionEventType = "Order";
 
@@ -112,7 +124,12 @@ class IntegrationApiHandler
      * @param $email
      * @return bool
      */
-    public function handleCustomerEvent($event, $customerId, $email) {
+    public function handleCustomerEvent($event, $customerId, $email)
+    {
+        if (!$this->isEnabled()) {
+            return false;
+        }
+
         $data = ['customer_id' => (int) $customerId, 'email' => $email];
         $actionEventType = "Customer";
 
@@ -192,7 +209,8 @@ class IntegrationApiHandler
      * @param array $data
      * @return array
      */
-    protected function mapActionFields(array $fields, array $data) {
+    protected function mapActionFields(array $fields, array $data)
+    {
         $ret = [];
 
         foreach ($fields as $field) {
@@ -248,7 +266,8 @@ class IntegrationApiHandler
      * @param array $field
      * @return string|null
      */
-    protected function convertFromCustomValue(array $field) {
+    protected function convertFromCustomValue(array $field)
+    {
         if (!isset($field['custom_value'])) {
             return "";
         }
@@ -261,7 +280,8 @@ class IntegrationApiHandler
      * @param array $field
      * @return string|null
      */
-    protected function convertFromYesNoValue(array $field) {
+    protected function convertFromYesNoValue(array $field)
+    {
         if (!isset($field['bool_value'])) {
             return "0";
         }
